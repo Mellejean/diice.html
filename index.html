@@ -224,6 +224,7 @@
             color: #8B0000;
             text-decoration: none;
             transition: color 0.3s;
+            display: none; /* Сначала скрыта */
         }
         
         .site-link:hover {
@@ -273,22 +274,23 @@
 
     <button id="rollButton">Бросить кубик</button>
     <div class="result" id="result"></div>
-    <a href="https://vk.com/stipendiat_pm" class="site-link">Ура! Ты получил доступ к нашему ВК-сообществу! Быстрее кликай сюда!</a>
+    <a href="https://vk.com/stipendiat_pm" class="site-link" id="vkLink">Ура! Ты получил доступ к нашему ВК-сообществу! Быстрее кликай сюда!</a>
 
     <script>
         const cube = document.getElementById('cube');
         const rollButton = document.getElementById('rollButton');
         const resultDisplay = document.getElementById('result');
+        const vkLink = document.getElementById('vkLink');
         let isRolling = false;
         let animationId;
 
         const outcomes = [
-            { x: 0, y: 0, value: 1 },
-            { x: 0, y: 180, value: 2 },
-            { x: 0, y: 90, value: 3 },
-            { x: 0, y: -90, value: 4 },
-            { x: -90, y: 0, value: 5 },
-            { x: 90, y: 0, value: 6 }
+            { x: 0, y: 0, value: 1 },        // front
+            { x: 0, y: 180, value: 2 },      // back
+            { x: 0, y: 90, value: 3 },       // right
+            { x: 0, y: -90, value: 4 },     // left
+            { x: 90, y: 0, value: 5 },       // top (исправлено с -90 на 90)
+            { x: -90, y: 0, value: 6 }       // bottom (исправлено с 90 на -90)
         ];
 
         function getRandomRotation() {
@@ -304,6 +306,7 @@
             
             isRolling = true;
             resultDisplay.textContent = '';
+            vkLink.style.display = 'none';
             
             const spinDuration = 3000;
             const startTime = performance.now();
@@ -328,6 +331,9 @@
                     cube.style.transform = `rotateX(${targetOutcome.x}deg) rotateY(${targetOutcome.y}deg)`;
                     resultDisplay.textContent = `Выпало: ${targetOutcome.value}`;
                     isRolling = false;
+                    
+                    // Показываем ссылку на ВК
+                    vkLink.style.display = 'block';
                     
                     // Добавляем небольшую "покачивающую" анимацию после остановки
                     cube.style.animation = 'wobble 0.5s ease';
