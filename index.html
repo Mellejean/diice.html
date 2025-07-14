@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f5f5dc; /* Бежевый фон */
+            background-color: #f5f5dc;
             font-family: Arial, sans-serif;
             overflow: hidden;
         }
@@ -37,9 +37,9 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            border: 2px solid rgba(139, 69, 19, 0.5); /* Коричневая граница */
+            border: 2px solid rgba(139, 69, 19, 0.5);
             border-radius: 15px;
-            background: linear-gradient(145deg, #8B0000, #A52A2A); /* Красно-коричневый градиент */
+            background: linear-gradient(145deg, #8B0000, #A52A2A);
             box-shadow: 0 0 20px rgba(139, 0, 0, 0.4);
             display: flex;
             justify-content: center;
@@ -59,13 +59,12 @@
         .dot {
             width: 28px;
             height: 28px;
-            background-color: #FFE4C4; /* Бежевые точки */
+            background-color: #FFE4C4;
             border-radius: 50%;
             position: absolute;
             box-shadow: 0 0 5px rgba(255, 228, 196, 0.8);
         }
 
-        /* Расположение точек */
         .front .dot.center {
             top: 50%;
             left: 50%;
@@ -177,8 +176,8 @@
             margin-top: 30px;
             padding: 15px 40px;
             font-size: 20px;
-            background: linear-gradient(to bottom, #8B0000, #A52A2A); /* Красно-коричневая кнопка */
-            color: #FFE4C4; /* Бежевый текст */
+            background: linear-gradient(to bottom, #8B0000, #A52A2A);
+            color: #FFE4C4;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -203,9 +202,10 @@
             margin-top: 25px;
             font-size: 28px;
             font-weight: bold;
-            color: #8B0000; /* Темно-красный текст */
+            color: #8B0000;
             height: 40px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         @keyframes wobble {
@@ -217,6 +217,11 @@
             75% { transform: rotateX(5deg) rotateY(-5deg); }
             100% { transform: rotateX(0) rotateY(0); }
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
         .site-link {
             margin-top: 20px;
@@ -224,7 +229,9 @@
             color: #8B0000;
             text-decoration: none;
             transition: color 0.3s;
-            display: none; /* Сначала скрыта */
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out forwards;
         }
         
         .site-link:hover {
@@ -285,12 +292,12 @@
         let animationId;
 
         const outcomes = [
-            { x: 0, y: 0, value: 1 },        // front
-            { x: 0, y: 180, value: 2 },      // back
-            { x: 0, y: 90, value: 3 },       // right
-            { x: 0, y: -90, value: 4 },     // left
-            { x: 90, y: 0, value: 5 },       // top (исправлено с -90 на 90)
-            { x: -90, y: 0, value: 6 }       // bottom (исправлено с 90 на -90)
+            { x: 0, y: 0, value: 1 },
+            { x: 0, y: 180, value: 2 },
+            { x: 0, y: 90, value: 3 },
+            { x: 0, y: -90, value: 4 },
+            { x: 90, y: 0, value: 5 },
+            { x: -90, y: 0, value: 6 }
         ];
 
         function getRandomRotation() {
@@ -318,7 +325,6 @@
                 const progress = Math.min(elapsed / spinDuration, 1);
                 
                 if (progress < 1) {
-                    // Эффект замедления в конце
                     const easing = 1 - Math.pow(1 - progress, 3);
                     
                     const currentX = randomRot.x * (1 - easing) + targetOutcome.x * easing;
@@ -327,15 +333,14 @@
                     cube.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
                     animationId = requestAnimationFrame(animate);
                 } else {
-                    // Точная остановка на выбранной грани
                     cube.style.transform = `rotateX(${targetOutcome.x}deg) rotateY(${targetOutcome.y}deg)`;
-                    resultDisplay.textContent = `Выпало: ${targetOutcome.value}`;
+                    resultDisplay.textContent = `Ты поделил! 🥳`;
                     isRolling = false;
                     
-                    // Показываем ссылку на ВК
-                    vkLink.style.display = 'block';
+                    setTimeout(() => {
+                        vkLink.style.display = 'block';
+                    }, 300);
                     
-                    // Добавляем небольшую "покачивающую" анимацию после остановки
                     cube.style.animation = 'wobble 0.5s ease';
                     setTimeout(() => {
                         cube.style.animation = '';
@@ -348,7 +353,6 @@
 
         rollButton.addEventListener('click', rollCube);
 
-        // Инициализация - небольшое вращение при загрузке
         setTimeout(() => {
             cube.style.transform = 'rotateX(15deg) rotateY(-15deg)';
         }, 500);
