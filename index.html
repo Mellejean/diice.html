@@ -13,10 +13,31 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f5f5dc;
+            background-color: white;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            transition: background-color 1s ease;
         }
+
+        /* Фоновые элементы */
+        .bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Стили для разных фонов */
+        .bg-hearts { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 20 20'%3E%3Cpath fill='%23ff9bb3' d='M10 6.5C10 5 12 3 12 3s2 2 2 3.5c0 1.5-2 3-2 3s-2-1.5-2-3z'/%3E%3C/svg%3E"); }
+        .bg-clovers { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 20 20'%3E%3Cpath fill='%23a8e6cf' d='M10 15c-2 0-4-1-4-3 0-1 1-2 2-3-1 0-2-1-2-2 0-2 2-3 4-3s4 1 4 3c0 1-1 2-2 2 1 1 2 2 2 3 0 2-2 3-4 3z'/%3E%3C/svg%3E"); }
+        .bg-clouds { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 20 20'%3E%3Cpath fill='%23dcedc1' d='M16 12c1 0 2-1 2-2s-1-2-2-2c-1-2-3-3-5-3-2 0-4 1-5 3-1 0-2 1-2 2s1 2 2 2h10z'/%3E%3C/svg%3E"); }
+        .bg-suns { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 20 20'%3E%3Ccircle fill='%23ffd3b6' cx='10' cy='10' r='5'/%3E%3Cpath fill='%23ffd3b6' d='M10 2l2 4 4 2-2 2 0 4-4-2-4 2 0-4-2-2 4-2z'/%3E%3C/svg%3E"); }
+        .bg-flowers { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 20 20'%3E%3Ccircle fill='%23d8b5ff' cx='10' cy='10' r='3'/%3E%3Cpath fill='%23d8b5ff' d='M10 14l3-3 3 3-3 3zM10 6l3 3 3-3-3-3zM6 10l3-3 3 3-3 3zM14 10l3 3-3 3-3-3z'/%3E%3C/svg%3E"); }
+        .bg-cups { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 20 20'%3E%3Cpath fill='%23e2bcb7' d='M5 5h10v8H5z'/%3E%3Cpath fill='%23e2bcb7' d='M7 13h6v2H7z'/%3E%3C/svg%3E"); }
 
         .scene {
             width: 200px;
@@ -37,16 +58,28 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            border: 2px solid rgba(139, 69, 19, 0.5);
+            border: 2px solid rgba(0, 0, 139, 0.3);
             border-radius: 15px;
-            background: linear-gradient(145deg, #8B0000, #A52A2A);
-            box-shadow: 0 0 20px rgba(139, 0, 0, 0.4);
+            background: linear-gradient(145deg, #00008B, #1E90FF);
+            box-shadow: 0 0 20px rgba(0, 0, 139, 0.3);
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 40px;
             color: white;
             backface-visibility: visible;
+        }
+
+        .cube-face::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
+            border-radius: 13px;
+            pointer-events: none;
         }
 
         .cube-face.front  { transform: rotateY(0deg) translateZ(100px); }
@@ -59,12 +92,13 @@
         .dot {
             width: 28px;
             height: 28px;
-            background-color: #FFE4C4;
+            background-color: #ADD8E6;
             border-radius: 50%;
             position: absolute;
-            box-shadow: 0 0 5px rgba(255, 228, 196, 0.8);
+            box-shadow: 0 0 5px rgba(173, 216, 230, 0.8);
         }
 
+        /* Расположение точек */
         .front .dot.center {
             top: 50%;
             left: 50%;
@@ -160,87 +194,73 @@
             right: 25%;
         }
 
-        .cube-face::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
-            border-radius: 13px;
-            pointer-events: none;
-        }
-
         button {
             margin-top: 30px;
             padding: 15px 40px;
             font-size: 20px;
-            background: linear-gradient(to bottom, #8B0000, #A52A2A);
-            color: #FFE4C4;
+            background: linear-gradient(to bottom, #00008B, #1E90FF);
+            color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 6px 10px rgba(139, 0, 0, 0.3);
+            box-shadow: 0 6px 10px rgba(0, 0, 139, 0.3);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(139, 0, 0, 0.4);
-            background: linear-gradient(to bottom, #A52A2A, #8B0000);
+            box-shadow: 0 8px 15px rgba(0, 0, 139, 0.4);
+            background: linear-gradient(to bottom, #1E90FF, #00008B);
         }
 
         button:active {
             transform: translateY(1px);
-            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 139, 0.3);
         }
 
         .result {
             margin-top: 25px;
-            font-size: 28px;
+            font-size: 36px;
             font-weight: bold;
-            color: #8B0000;
-            height: 40px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 50px;
             text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        @keyframes wobble {
-            0% { transform: rotateX(0) rotateY(0); }
-            15% { transform: rotateX(10deg) rotateY(5deg); }
-            30% { transform: rotateX(-5deg) rotateY(10deg); }
-            45% { transform: rotateX(5deg) rotateY(-5deg); }
-            60% { transform: rotateX(-5deg) rotateY(5deg); }
-            75% { transform: rotateX(5deg) rotateY(-5deg); }
-            100% { transform: rotateX(0) rotateY(0); }
+        .result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 22px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .site-link {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #8B0000;
-            text-decoration: none;
-            transition: color 0.3s;
-            display: none;
-            text-align: center;
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        
-        .site-link:hover {
-            color: #A52A2A;
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
+    <div class="bg-pattern" id="bgPattern"></div>
+    
     <div class="scene">
         <div class="cube" id="cube">
             <div class="cube-face front">
@@ -278,3 +298,134 @@
             </div>
         </div>
     </div>
+
+    <button id="rollButton">Бросить кубик</button>
+    <div class="result" id="result"></div>
+    <div class="message" id="message"></div>
+
+    <script>
+        const cube = document.getElementById('cube');
+        const rollButton = document.getElementById('rollButton');
+        const resultDisplay = document.getElementById('result');
+        const messageDisplay = document.getElementById('message');
+        const bgPattern = document.getElementById('bgPattern');
+        let isRolling = false;
+        let animationId;
+
+        const outcomes = [
+            { 
+                x: 0, y: 0, value: 1,
+                bgColor: '#ffebee', bgClass: 'bg-hearts',
+                resultText: 'Любви!', resultColor: '#d81b60',
+                messageText: 'Всего самого лучшего!'
+            },
+            { 
+                x: 0, y: 180, value: 2,
+                bgColor: '#e8f5e9', bgClass: 'bg-clovers',
+                resultText: 'Удачи!', resultColor: '#43a047',
+                messageText: 'Пусть все будет так, как ты захочешь!'
+            },
+            { 
+                x: 0, y: 90, value: 3,
+                bgColor: '#e3f2fd', bgClass: 'bg-clouds',
+                resultText: 'Счастья!', resultColor: '#1976d2',
+                messageText: 'Пусть каждый день будет самым лучшим!'
+            },
+            { 
+                x: 0, y: -90, value: 4,
+                bgColor: '#fff8e1', bgClass: 'bg-suns',
+                resultText: 'Ты солнце!', resultColor: '#ff8f00',
+                messageText: 'Пусть в твоей жизни никогда не будет пасмурных дней!'
+            },
+            { 
+                x: 90, y: 0, value: 5,
+                bgColor: '#f3e5f5', bgClass: 'bg-flowers',
+                resultText: 'Ты чудо!', resultColor: '#8e24aa',
+                messageText: 'Самых ярких цветов и самых ярких дней!'
+            },
+            { 
+                x: -90, y: 0, value: 6,
+                bgColor: '#efebe9', bgClass: 'bg-cups',
+                resultText: 'Успехов!', resultColor: '#6d4c41',
+                messageText: 'Пусть у тебя все получится!'
+            }
+        ];
+
+        function getRandomRotation() {
+            return {
+                x: Math.floor(Math.random() * 360 * 4) + 360 * 3,
+                y: Math.floor(Math.random() * 360 * 4) + 360 * 3,
+                z: Math.floor(Math.random() * 360 * 2)
+            };
+        }
+
+        function rollCube() {
+            if (isRolling) return;
+            
+            isRolling = true;
+            resultDisplay.classList.remove('show');
+            messageDisplay.classList.remove('show');
+            
+            const spinDuration = 3500;
+            const startTime = performance.now();
+            const randomRot = getRandomRotation();
+            const targetOutcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+            
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / spinDuration, 1);
+                
+                if (progress < 1) {
+                    const easing = 1 - Math.pow(1 - progress, 4);
+                    
+                    const currentX = randomRot.x * (1 - easing) + targetOutcome.x * easing;
+                    const currentY = randomRot.y * (1 - easing) + targetOutcome.y * easing;
+                    const currentZ = randomRot.z * (1 - easing);
+                    
+                    cube.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg) rotateZ(${currentZ}deg)`;
+                    animationId = requestAnimationFrame(animate);
+                } else {
+                    // Плавная остановка
+                    cube.style.transform = `rotateX(${targetOutcome.x}deg) rotateY(${targetOutcome.y}deg)`;
+                    isRolling = false;
+                    
+                    // Устанавливаем фон и текст
+                    document.body.style.backgroundColor = targetOutcome.bgColor;
+                    bgPattern.className = 'bg-pattern ' + targetOutcome.bgClass;
+                    
+                    resultDisplay.textContent = targetOutcome.resultText;
+                    resultDisplay.style.color = targetOutcome.resultColor;
+                    
+                    messageDisplay.textContent = targetOutcome.messageText;
+                    messageDisplay.style.color = targetOutcome.resultColor;
+                    
+                    // Показываем надписи с анимацией
+                    setTimeout(() => {
+                        resultDisplay.classList.add('show');
+                        setTimeout(() => {
+                            messageDisplay.classList.add('show');
+                        }, 300);
+                    }, 100);
+                }
+            }
+            
+            // Начало анимации
+            cube.style.transition = 'transform 0.3s ease-out';
+            cube.style.transform = 'rotateX(15deg) rotateY(-15deg) translateY(-10px)';
+            
+            setTimeout(() => {
+                cube.style.transition = 'transform 0s';
+                animationId = requestAnimationFrame(animate);
+            }, 300);
+        }
+
+        rollButton.addEventListener('click', rollCube);
+
+        // Инициализация
+        setTimeout(() => {
+            cube.style.transition = 'transform 1s ease-out';
+            cube.style.transform = 'rotateX(15deg) rotateY(-15deg)';
+        }, 100);
+    </script>
+</body>
+</html>
